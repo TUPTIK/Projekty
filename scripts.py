@@ -3,6 +3,7 @@ from random import randint, choice,choices
 
 imie = 'bezimienny'
 ekwipunek = [0,0,0,0]
+gold = 5
 maxhp = 25
 hpg = 25   #atak i obrona gracza
 atg = 30
@@ -98,9 +99,9 @@ def wyekwipuj():
 #pomieszczenia====================================
 
 map = []
-dosmap = [1,1,2,3,4,5]
+dosmap = [1,1,2,3]  # 4,5
 
-while len(map) < 5:
+while len(map) < 3:
     i = randint(1, len(dosmap)) - 1
     j = dosmap [i]
     map.append(j)
@@ -183,33 +184,33 @@ def pom3():     #dokończ
     input()
     return('True')
 
-def pom4():     #dokończ
-    global atw
-    global obw
-    global hpw
-    global rodzaj
-    print('----------------||----------------')
-    print('pom4')
-    print('----------------||----------------')
-    atw = 1
-    obw = 0
-    hpw = 10
-    rodzaj = 'wróg'
+# def pom4():     #dokończ
+#     global atw
+#     global obw
+#     global hpw
+#     global rodzaj
+#     print('----------------||----------------')
+#     print('pom4')
+#     print('----------------||----------------')
+#     atw = 1
+#     obw = 0
+#     hpw = 10
+#     rodzaj = 'wróg'
 
-def pom5():     #dokończ
-    global atw
-    global obw
-    global hpw
-    global rodzaj
-    print('----------------||----------------')
-    print('pom5')
-    print('----------------||----------------')
-    atw = 1
-    obw = 0
-    hpw = 10
-    rodzaj = 'wróg'
+# def pom5():     #dokończ
+#     global atw
+#     global obw
+#     global hpw
+#     global rodzaj
+#     print('----------------||----------------')
+#     print('pom5')
+#     print('----------------||----------------')
+#     atw = 1
+#     obw = 0
+#     hpw = 10
+#     rodzaj = 'wróg'
 
-#następny_pokój====================================
+#następny_pokój===================================
 
 def next_door():
     global map
@@ -225,14 +226,14 @@ def next_door():
         if pom3() == 'True':
             return('True')
         else: return('False')
-    elif map [1] == 4:
-        if pom4() == 'True':
-            return('True')
-        else: return('False')
-    elif map [1] == 5:
-        if pom5() == 'True':
-            return('True')
-        else: return('False')
+    # elif map [1] == 4:
+    #     if pom4() == 'True':
+    #         return('True')
+    #     else: return('False')
+    # elif map [1] == 5:
+    #     if pom5() == 'True':
+    #         return('True')
+    #     else: return('False')
     map.pop(1)
 
 #jeszcze_żyjecie?=================================
@@ -253,7 +254,71 @@ def zyjecie():
     elif hpw > 0 and hpg > 0:
         return('Draw')
 
-#walka==============================================
+#loot=============================================
+
+def loot():
+    global gold
+    if rodzaj == 'gobliny-hazardziści':
+        print('----------------||----------------')
+        print('Po zaskakująco ciężkiej walce')
+        print('udaje ci się zadać ostatni cios')
+        print('ostatniemu z goblinów. Zdyszany')
+        print('ale terz uśmiechnięty podchodzisz')
+        print('do stolika by wypić niedopity')
+        print('alkochol ale też zabrać całkiem')
+        print('pokaźną pule nagród.')
+        print('----------------||----------------')
+        i = randint(77, 110)
+        gold += i
+        print(f'Zbierasz {i} golda.')
+        print(f'Masz obecnie {gold} golda.')
+        input()
+    elif rodzaj == 'kat':
+        print('----------------||----------------')
+        print('Kilka ostatnich mocnych ciosów i')
+        print('po długiej walce wielki kat leży')
+        print('na ziemi. Z zaciekawieniem patżysz')
+        print('na jego toporek u pasa.')
+        print('---------------||----------------')
+        if ekwipunek [2] == 0:
+            print('czy podnosisz toporek? tak/nie')
+            while True:
+                inp = input()
+                if inp == 'tak':
+                    podnies(2)
+                    break
+                elif inp == 'nie':
+                    break
+                else:
+                    print('błąd')
+        i = randint(27, 150)
+        gold += i
+        print(f'Zbierasz {i} golda.')
+        print(f'Masz obecnie {gold} golda.')
+        input()
+    elif rodzaj == 'kaczy król':
+        print('----------------||----------------')
+        print('Ta walka okazała się być łatwiejsza')
+        print('niż mogłeś przypuszczać. Po chwili')
+        print('walki upitoliłeś przerośniętej')
+        print('kaczce łeb. Kdyby nie fakt, że nie')
+        print('masz dostępu zjadłbyś teraz')
+        print('potrawke z kaczki. Znajdujesz przy')
+        print('nodze kaczki przywiązaną sakiewke.')
+        print('----------------||----------------')
+        i = randint(40, 60)
+        gold += i
+        print(f'Zbierasz {i} golda.')
+        print(f'Masz obecnie {gold} golda.')
+        input()
+
+
+
+
+
+
+
+#walka============================================
 
 def atakgr():
     global hpw
@@ -422,13 +487,11 @@ def walka():
         atakwr()
     if zyjecie() == 'Win':
         print(f'Gratuluje wygrałeś ze {rodzaj}.')
+        loot()
         rodzaj = 'brak_wroga'
         return(True)
     elif zyjecie() == 'Lose':
         return(False)
 
-#testy==================================================
+#testy============================================
 
-print(map)
-if next_door() == 'True':
-    walka()
