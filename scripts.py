@@ -2,11 +2,11 @@
 from random import randint, choice,choices
 
 imie = 'bezimienny'
-ekwipunek = [0,0,0,0]
-gold = 5
+ekwipunek = [1,1,1,1]
+gold = 45
 maxhp = 25
 hpg = 25   #atak i obrona gracza
-atg = 30
+atg = 5
 obg = 2
 
 rodzaj = 'brak_wroga'
@@ -99,7 +99,7 @@ def wyekwipuj():
 #pomieszczenia====================================
 
 map = []
-dosmap = [1,1,2,3]  # 4,5
+dosmap = [1,1,2,3,4,4]  #5
 
 while len(map) < 3:
     i = randint(1, len(dosmap)) - 1
@@ -107,11 +107,12 @@ while len(map) < 3:
     map.append(j)
     dosmap.pop(i)
 
-def pom1():     #dokończ
+def pom1():
     global atw
     global obw
     global hpw
     global rodzaj
+    global gold
     print('----------------||----------------')
     print('Po chwili marszu wchodzisz do')
     print('sporego i jasnego pomieszczenia.')
@@ -122,14 +123,33 @@ def pom1():     #dokończ
     print('wrogimi okrzykami i żucają się na')
     print('ciebie uzbrojone w noże ...')
     print('----------------||----------------')
-    atw = 6
-    obw = 3
-    hpw = 15
-    rodzaj = 'gobliny-hazardziści'
-    input()
-    return('True')
+    inp = input()
+    if inp=='gram w karty'or inp=='gram z goblinami'or inp=='karty' or inp=='gram'and gold>= 45:
+        print('----------------||----------------')
+        print('Gobliny spoczątku nie chcą z tobą')
+        print('grać. Jednak po daniu każdemu po')
+        print('15 sztuk złota na dobry początek')
+        print('zapraszają cie do stołu. Szybko')
+        print('okazuje się że wszystkie są')
+        print('beznadziejne w karty. Ograłeś')
+        print('wszystkie co do grosz. Wygrany z')
+        print('przyjemnie wypełnioną sakiewką')
+        print('ruszasz dalej.')
+        print('----------------||----------------')
+        i = randint(85, 125)
+        gold += i
+        print(f'Wygrałeś {i} golda.')
+        print(f'Masz obecnie {gold} golda.')
+        input()
+        return('False')
+    else:
+        atw = 6
+        obw = 3
+        hpw = 15
+        rodzaj = 'gobliny-hazardziści'
+        return('True')
 
-def pom2():     #dokończ
+def pom2():
     global atw
     global obw
     global hpw
@@ -163,7 +183,7 @@ def pom2():     #dokończ
             input()
             return('True')
 
-def pom3():     #dokończ
+def pom3():
     global atw
     global obw
     global hpw
@@ -184,18 +204,28 @@ def pom3():     #dokończ
     input()
     return('True')
 
-# def pom4():     #dokończ
-#     global atw
-#     global obw
-#     global hpw
-#     global rodzaj
-#     print('----------------||----------------')
-#     print('pom4')
-#     print('----------------||----------------')
-#     atw = 1
-#     obw = 0
-#     hpw = 10
-#     rodzaj = 'wróg'
+def pom4():
+    global atw
+    global obw
+    global hpw
+    global rodzaj
+    print('----------------||----------------')
+    print('Idziesz jak gdyby nic. Od zwykły')
+    print('kolejny korytaż. Jednak już do')
+    print('niego wchodząc czujesz że coś jest')
+    print('ne tak. Z pod nóg uciekają ci całe')
+    print('stada szczurów. Sgąd ih tu tyle?')
+    print('Po smrodzie i zjedzonych zwłokach')
+    print('zaczynasz rozumieć ,jednak kiedy')
+    print('chciałeś droge zastawia ci cała')
+    print('horda szczurów ...')
+    print('----------------||----------------')
+    input()
+    atw = 4
+    obw = -2
+    hpw = 15
+    rodzaj = 'szczurki'
+    return('True')
 
 # def pom5():     #dokończ
 #     global atw
@@ -216,23 +246,23 @@ def next_door():
     global map
     if map [1] == 1:
         if pom1() == 'True':
-            return('True')
+            walka()
         else: return('False')
     elif map [1] == 2:
         if pom2() == 'True':
-            return('True')
+            walka()
         else: return('False')
     elif map [1] == 3:
         if pom3() == 'True':
-            return('True')
+            walka()
         else: return('False')
-    # elif map [1] == 4:
-    #     if pom4() == 'True':
-    #         return('True')
-    #     else: return('False')
+    elif map [1] == 4:
+        if pom4() == 'True':
+            walka()
+        else: return('False')
     # elif map [1] == 5:
     #     if pom5() == 'True':
-    #         return('True')
+    #         walka()
     #     else: return('False')
     map.pop(1)
 
@@ -268,7 +298,7 @@ def loot():
         print('alkochol ale też zabrać całkiem')
         print('pokaźną pule nagród.')
         print('----------------||----------------')
-        i = randint(77, 110)
+        i = randint(70, 85)
         gold += i
         print(f'Zbierasz {i} golda.')
         print(f'Masz obecnie {gold} golda.')
@@ -311,12 +341,16 @@ def loot():
         print(f'Zbierasz {i} golda.')
         print(f'Masz obecnie {gold} golda.')
         input()
-
-
-
-
-
-
+    elif rodzaj == 'szczurki':
+        print('----------------||----------------')
+        print('Po niezbyt trudnej walce zabierasz')
+        print('trupowi sakiewke i odchodzisz.')
+        print('----------------||----------------')
+        i = randint(20,30)
+        gold += i
+        print(f'Zbierasz {i} golda.')
+        print(f'Masz obecnie {gold} golda.')
+        input()
 
 #walka============================================
 
@@ -345,17 +379,22 @@ def atakgr():
         if inp == 'pchnięcie':
             if ekwipunek[0] == 2:
                 i = randint(0,4)
-                if i == 3: i = 6; print('cios krytyczny'); mor -= 2
-                hpw = hpw - atg - i + obw
-                print(f'Zadajesz {atg + i-obw} hp')
+                if atg + i >obw:
+                    hpw = hpw - atg - i + obw
+                    print(f'Zadajesz {atg + i-obw} hp')
+                else:
+                    print('nie zadajesz żadnych obrażeń')
                 break
             else:
                 print('nie możesz tego zrobić')
         if inp == 'cięcie':
             if ekwipunek[0] == 2:
                 i = randint(1,2)
-                hpw = hpw - atg - i + obw
-                print(f'Zadajesz {atg + i-obw} hp')
+                if atg + i >obw:
+                    hpw = hpw - atg - i + obw
+                    print(f'Zadajesz {atg + i-obw} hp')
+                else:
+                    print('nie zadajesz żadnych obrażeń')
                 break
             else:
                 print('nie możesz tego zrobić')
@@ -363,8 +402,11 @@ def atakgr():
             if ekwipunek[2]:
                 obw = obw - randint(0,1)
                 i = randint(0,1)
-                hpw = hpw - atg - i + obw
-                print(f'Zadajesz {atg + i-obw} hp')
+                if atg + i >obw:
+                    hpw = hpw - atg - i + obw
+                    print(f'Zadajesz {atg + i-obw} hp')
+                else:
+                    print('nie zadajesz żadnych obrażeń')
                 break
             else:
                 print('nie możesz tego zrobić')
@@ -372,8 +414,11 @@ def atakgr():
             if ekwipunek[2]:
                 i = randint(4,6)
                 obw = obw + randint(0,1)
-                hpw = hpw - atg - i + obw
-                print(f'Zadajesz {atg + i-obw} hp')
+                if atg + i >obw:
+                    hpw = hpw - atg - i + obw
+                    print(f'Zadajesz {atg + i-obw} hp')
+                else:
+                    print('nie zadajesz żadnych obrażeń')
                 break
             else:
                 print('nie możesz tego zrobić')
@@ -381,28 +426,40 @@ def atakgr():
             if ekwipunek[3] == 2:
                 i = 0
                 obw = obw - randint(0,2)
-                hpw = hpw - atg - i + obw
-                print(f'Zadajesz {atg + i-obw} hp')
+                if atg + i >obw:
+                    hpw = hpw - atg - i + obw
+                    print(f'Zadajesz {atg + i-obw} hp')
+                else:
+                    print('nie zadajesz żadnych obrażeń')
                 break
             else:
                 print('nie możesz tego zrobić')
         if inp == 'rąbnięcie':
             if ekwipunek[3]:
                 i = randint(0,4)
-                hpw = hpw - atg - i + obw
-                print(f'Zadajesz {atg + i-obw} hp')
+                if atg + i >obw:
+                    hpw = hpw - atg - i + obw
+                    print(f'Zadajesz {atg + i-obw} hp')
+                else:
+                    print('nie zadajesz żadnych obrażeń')
                 break
             else:
                 print('nie możesz tego zrobić')
         if inp == 'kopniak':
             i = randint(0,1)
-            hpw = hpw - atg - i + obw
-            print(f'Zadajesz {atg + i-obw} hp')
+            if atg + i >obw:
+                hpw = hpw - atg - i + obw
+                print(f'Zadajesz {atg + i-obw} hp')
+            else:
+                print('nie zadajesz żadnych obrażeń')
             break
         if inp == 'sierpowy':
             i = 0
-            hpw += - atg - i + obw
-            print(f'Zadajesz {atg + i-obw} hp')
+            if atg + i >obw:
+                hpw = hpw - atg - i + obw
+                print(f'Zadajesz {atg + i-obw} hp')
+            else:
+                print('nie zadajesz żadnych obrażeń')
             break
         else:
             print('nie możesz tego zrobić')
@@ -417,76 +474,122 @@ def atakwr():
         if i == 1:
             print('gobliny bezładnie dźgają')
             i = randint(-2,1)
-            print(f'zadją ci {atw + i-obg} hp')
-            hpg = hpg - atw - i+obg
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
         elif i == 2:
             print('gobliny przeprowadzają szarże')
-            hpg += - atw+obg
-            print(f'zadją ci {atw-obg} hp')
+            if atw - obg >= 0:
+                print(f'zadją ci {atw -obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
         elif i == 3:
             print('gobliny prubują cię otoczyć')
             if randint(0,1) == 1:
                 print('i im się to udaje')
                 i = randint(2,4)
-                hpg += - atw - i+obg
-                print(f'zadją ci {atw + i-obg} hp')
+                if i + atw > obg:
+                    print(f'zadją ci {atw + i-obg} hp')
+                    hpg = hpg - atw - i+obg
+                else:
+                    print('nie zadają ci żadnych obrażeń')
             else:
                 print('nieudaje się to im przez co się odsłaniają')
                 obw += -randint(1,2)
                 i = randint(0,2)
-                hpg += -atw + i+obg
-                print(f'gobliny nieudolnie zadają ci {atw - i-obg} hp')
+                if atw >= obg + i:
+                    hpg += -atw + i+obg
+                    print(f'gobliny nieudolnie zadają ci {atw - i-obg} hp')
+                else:
+                    print('nie udaje im się zadać ci żadnych obrażeń')
     elif rodzaj == 'kat':
         i = sum(choices([1,1,2,2,3]))
         if i == 1:
             print('Kat atakuje cię toporkiem który miał u pasa.')
             i = randint(-1,1)
-            print(f'zadaje ci {atw + i-obg} hp')
-            hpg = hpg - atw - i+obg
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
         elif i == 2:
             print('Kat żucz w ciebie kawałkami maszyn do tortur')
             if randint(1,5) > 1:
                 i = randint(2,4)
-                print(f'zadaje ci {atw + i-obg} hp')
-                hpg = hpg - atw - i+obg
+                if i + atw > obg:
+                    print(f'zadją ci {atw + i-obg} hp')
+                    hpg = hpg - atw - i+obg
+                else:
+                    print('nie zadają ci żadnych obrażeń')
             else:
                 print('kat niczym cię nie trafia')
         elif i == 3:
             print('Kat szarżyje na ciebie i atakuje na wszelkie sposoby.')
             i = randint(1,3)
-            print(f'zadaje ci {atw + i-obg-obg} hp')
-            hpg = hpg - atw - i+obg
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
     elif rodzaj == 'kaczy król':
         i = sum(choices([1,1,2]))
         if i == 1:
             print('Król ciebie dziobie.')
             i = randint(1,4)
-            hpg = hpg - atw -i + obg
-            print(f'zadaje ci {atw + i-obg} hp')
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
         elif i == 2:
             print('Kaczy król wzywa posiłki.')
             i = randint(0,1)
-            atw += i
-            print(f'Nowe kaczki podwyższają atak króla o {i}')
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
+    elif rodzaj == 'szczurki':
+        i = sum(choices([1,1,2]))
+        if i == 1:
+            print('Szczury zalewają cię falą do kolan.')
+            i = randint(-1,1)
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
+        elif i == 2:
+            print('szczury boleśnie gryzą cie w stopy')
+            i = randint(1,2)
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:
+                print('nie zadają ci żadnych obrażeń')
 
 def walka():
     global rodzaj
     print(f"Walczysz z {rodzaj} .")
     while zyjecie() == 'Draw':
         print(f'obecnie masz {hpg} hp, {obg} obrony i {atg} ataku')
-        input()
-        print(f'wróg ma obecnie {hpw} hp, {obw} obrony i {atw} ataku')
         print('')
+        print(f'wróg ma obecnie {hpw} hp, {obw} obrony i {atw} ataku')
+        input()
         atakgr()
         if zyjecie() != 'Draw':
             break
         print(f'wróg ma obecnie {hpw} hp, {obw} obrony i {atw} ataku')
-        input()
-        print(f'obecnie masz {hpg} hp, {obg} obrony i {atg} ataku')
         print('')
+        print(f'obecnie masz {hpg} hp, {obg} obrony i {atg} ataku')
+        input()
         atakwr()
     if zyjecie() == 'Win':
         print(f'Gratuluje wygrałeś ze {rodzaj}.')
+        input()
         loot()
         rodzaj = 'brak_wroga'
         return(True)
@@ -495,3 +598,5 @@ def walka():
 
 #testy============================================
 
+wyekwipuj()
+next_door()
