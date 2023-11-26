@@ -1,13 +1,14 @@
-
+import copy
 from random import randint, choice,choices
 
 imie = 'bezimienny'
 ekwipunek = [0,0,0,0,0]
-leczenie = [0,0,0]          #[chleb,proste bandaże,heal potion]
-gold = 9999
+leczenie = [0,0,0]          #[chleb,bandaże,heal potion]
+efects = [0,0,0]            #[osłabienie,podpalenie,trucizna]
+gold = 30
 maxhp = 25
 hpg = 25
-atg = 5
+atg = 3
 obg = 2
 
 rodzaj = 'brak_wroga'
@@ -107,14 +108,40 @@ def wyekwipuj():
 
 #pomieszczenia====================================
 
-map = []
-dosmap = [1,2,3,4,4,5,5,5]
+map = [0]
+dosmap = [1,2,3,4,4,5,5,5,4,3,2,5,5,2,1]
 
-while len(map) < 5:
-    i = randint(1, len(dosmap)) - 1
-    j = dosmap [i]
-    map.append(j)
-    dosmap.pop(i)
+while len(map) < 11:
+    if len(map)==3 or len(map)==6 or len(map)==9:
+        map.append('trader')
+    else:
+        i = randint(1, len(dosmap)) - 1
+        j = dosmap [i]
+        map.append(j)
+        dosmap.pop(i)
+map.append('end')
+
+def pom0():
+    global atw
+    global obw
+    global hpw
+    global rodzaj
+    global ekwipunek
+    print('----------------||----------------')
+    print('Budzisz się . . . sam w sumie nie')
+    print('wiesz gdzie. Jesteś w jakimś lochu')
+    print('z grzybem na ścianach przez małe')
+    print('okienko w suficie wpada światło')
+    print('księżyca które oświetliło miecz')
+    print('leżący w kałuży.')
+    print('----------------||----------------')
+    print('Czy bieżesz miecz? tak/nie')
+    while True:
+        inp=input()
+        if inp=='tak':podnies(0);break
+        elif inp=='nie':break
+    print('Niezależnie od wszystkiego ruszasz')
+    print('dalej w nowo odkryty tunel.')
 
 def pom1():
     global atw
@@ -251,8 +278,46 @@ def pom5():
     rodzaj = 'goblin'
     return('True')
 
+def ending1():
+    global rodzaj
+    global atw
+    global obw
+    global hpw
+    print('----------------||----------------')
+    print('Po naprawde długiej wędrówce przez')
+    print('lochy, dochodzisz do windy i szybów')
+    print('górniczych. Wyglądają na stare ale')
+    print('z nadzieją prubujesz uruchomić')
+    print('winde. Niestety w kąsoli brakowało')
+    print('wielu guzików w tym tego wzywają-')
+    print('cego winde. Nagle zza pleców')
+    print('słyszysz głos:')
+    print('-Tego szukasz człowieczku?...')
+    print('----------------||----------------')
+    input()
+    print('----------------||----------------')
+    print('Odwracasz się a tam wielki górnik')
+    print('zombie. Jest o dwie głowy wyższy')
+    print('od ciebie, ma stary struj górnika,')
+    print('w ręku ściska sierp a na plecach ma')
+    print('ogromny młot. Po chwili zauważasz')
+    print('co on trzyma w drugim ręku. To jest')
+    print('guzik wzywający winde twoja')
+    print('przepustka na powieżchnie. Chcąc')
+    print('jak najszybciej go zdobyć żucasz')
+    print('się na wroga mimo niepokojących')
+    print('błysków inteligencji w jego oczach.')
+    print('A ten na twuj atak raguje tylko')
+    print('śmiechem . . .')
+    print('----------------||----------------')
+    rodzaj = 'zombi-górnik'
+    atw = 9
+    obw = 2
+    hpw = 50
+    return('True')
+
 tradernr = 0
-def trader():     #dokańcz
+def trader():
     global tradernr
     global leczenie
     global gold
@@ -284,51 +349,57 @@ def trader():     #dokańcz
         if l2>0:print(f'-{l2} bandaży (jeden 10 golda)')
         if l3>0:print(f'-{l3} mikstur leczących (jedna 20 golda)')
         end=0
+        global leczenie
+        global gold
+        print(f'masz obecnie {gold} golda')
         print('Co chcesz kupić? wyżej wymienione/już nic')
         while True:
             inp=input()
-            if inp == 'miecz'and ekwipunek[0]==0 and gold>=45:ekwipunek[0]==1;gold-=45;break
-            if inp == 'tarcze'and ekwipunek[1]==0 and gold>=70:ekwipunek[1]==1;gold-=70;break
-            if inp == 'toporek'and ekwipunek[2]==0 and gold>=65:ekwipunek[2]==1;gold-=65;break
-            if inp == 'duży miecz'and ekwipunek[3]==0 and gold>=110:ekwipunek[3]==1;gold-=110;break
-            if inp == 'kusze'and ekwipunek[4]==0 and gold>=125:ekwipunek[4]==1;gold-=125;break
-            if inp == 'chleb'and l1>0 and gold>=6:leczenie[0]+=1;gold-=6;break
-            if inp == 'bandaż'and l2>0 and gold>=10:leczenie[1]+=1;gold-=10;break
-            if inp == 'mikstur leczących'and l3>0 and gold>=20:leczenie[2]+=1;gold-=20;break
-            if inp == 'już nic':break;end=1
+            if inp == 'miecz'and ekwipunek[0]==0 and gold>=45:ekwipunek[0]=1;gold-=45;break
+            if inp == 'tarcze'and ekwipunek[1]==0 and gold>=70:ekwipunek[1]=1;gold-=70;break
+            if inp == 'toporek'and ekwipunek[2]==0 and gold>=65:ekwipunek[2]=1;gold-=65;break
+            if inp == 'duży miecz'and ekwipunek[3]==0 and gold>=110:ekwipunek[3]=1;gold-=110;break
+            if inp == 'kusze'and ekwipunek[4]==0 and gold>=125:ekwipunek[4]=1;gold-=125;break
+            if inp == 'chleb'and l1>0 and gold>=6:leczenie[0]+=1;gold-=6;l1-=1;break
+            if inp == 'bandaż'and l2>0 and gold>=10:leczenie[1]+=1;gold-=10;l2-=1;break
+            if inp == 'mikstur leczących'and l3>0 and gold>=20:leczenie[2]+=1;gold-=20;l3-=1;break
+            if inp == 'już nic':return('False')
             else:print('nie można tego kupić')
-        if end == 1:end=0;break
-    while True:
-        print('Czy po zakupach chcesz wekwipować nowe żeczy? tak/nie')
-        inp = input()
-        if inp == 'tak':wyekwipuj();break
-        if inp == 'nie':break
-        else:print('zła komenda')
 
 #następny_pokój===================================
 
 def next_door():
     global map
+    if map [0] == 0:
+        if pom0() == 'True':
+            if walka()==False:return False
     if map [0] == 1:
         if pom1() == 'True':
-            walka()
-        else: return('False')
+            if walka()==False:return False
     elif map [0] == 2:
         if pom2() == 'True':
-            walka()
-        else: return('False')
+            if walka()==False:return False
     elif map [0] == 3:
         if pom3() == 'True':
-            walka()
-        else: return('False')
+            if walka()==False:return False
     elif map [0] == 4:
         if pom4() == 'True':
-            walka()
-        else: return('False')
+            if walka()==False:return False
     elif map [0] == 5:
         if pom5() == 'True':
-            walka()
-        else: return('False')
+            if walka()==False:return False
+    elif map[0]== 'trader':
+        if trader() == 'False':
+            while True:
+                print('Czy po zakupach chcesz wekwipować nowe żeczy? tak/nie')
+                inp = input()
+                if inp == 'tak':wyekwipuj();break
+                if inp == 'nie':break
+                else:print('zła komenda')
+
+    elif map [0] == 'end':
+        if ending1() == 'True':
+            if walka()=='End1':return('End1')
     map.pop(0)
 
 #jeszcze_żyjecie?=================================
@@ -349,7 +420,7 @@ def zyjecie():
     elif hpw > 0 and hpg > 0:
         return('Draw')
 
-#loot, leczenie===================================
+#loot, efekty====================================
 
 def lecz():
     global leczenie
@@ -384,7 +455,6 @@ def lecz():
                 break
             else: print('błąd')
         if hpg > maxhp: hpg = maxhp
-
 
 def loot():
     global gold
@@ -479,6 +549,34 @@ def loot():
         print(f'Zbierasz {i} golda.')
         print(f'Masz obecnie {gold} golda.')
         input()
+    elif rodzaj == 'zombi-górnik':
+        print('----------------||----------------')
+        print('Po długiej i męczącej walce z sa-')
+        print('dysfakcją patrzysz na nieumarłego.')
+        print('Jesteś zainteresowany tylko jednym')
+        print('zabierasz guzik trupowi, wtykasz w')
+        print('panel przy windzie. Winda najpierw')
+        print('zjeżdża do ciebie a potem z tobą')
+        print('już na pokładzie wyjeżdża na')
+        print('powieżchnie . . .           KONIEC')
+        print('----------------||----------------')
+        return('End1')
+
+def efekt():
+    global efects
+    global hpg
+    global obg
+    global atg
+    if sum(efects)>0:
+        if efects[0]>0:
+            efects[0]-=1;i=randint(0,2);atg-=i
+            print(f'Czujesz osłabienie, twój atak spada o {i}')
+        if efects[1]>0:
+            efects[1]-=1;i=randint(2,4);hpg-=i
+            print(f'Czujesz działanie trucizny, tracisz {i} hp')
+        if efects[2]>0:
+            efects[2]-=1;i=randint(6,7);j=randint(1,2);hpg-=i;obg-=j
+            print(f'Płoniesz, tracisz {i} hp i {j} panceża')
 
 #walka============================================
 
@@ -621,6 +719,7 @@ def atakwr():
     global obw
     global rodzaj
     global atw
+    global efects
     if rodzaj == 'gobliny-hazardziści':
         i = sum(choices([1,1,1,1,2,2,3]))
         if i == 1:
@@ -740,11 +839,44 @@ def atakwr():
                 hpg = hpg - atw - i+obg
             else:
                 print('nie zadają ci żadnych obrażeń')
+    elif rodzaj == 'zombi-górnik':
+        i = sum(choices([1,1,1,1,2,2,2,3]))
+        if i==1:
+            print('gurnik tnie sierpem')
+            i = randint(-2,3)
+            if i + atw > obg:
+                print(f'zadją ci {atw + i-obg} hp')
+                hpg = hpg - atw - i+obg
+            else:print('nie zadają ci żadnych obrażeń')
+        if i==2:
+            print('zombiak bieże duży zamach z młota i wali')
+            if randint(-1,4)>0:
+                i = randint(-2,4)
+                if i + atw > obg:
+                    print(f'zadją ci {atw + i-obg} hp')
+                    hpg = hpg - atw - i+obg
+                else:print('nie zadają ci żadnych obrażeń')
+            else:print('nie trafił w ciebie')
+        if i==3:
+            print('Z przeciwnika wydobywa się taki smród że ci jest już słabo')
+            efects[0]+=randint(1,2)
 
 def walka():  
     global rodzaj
+    global atg
+    global obg
+    a=atg;b=obg
     print(f"Walczysz z {rodzaj} .")
+    print('Czy przed walką chcesz sprawdzić swój ekwipunek? tak/nie')
+    print('!UWAGA! podczas walki nie można tego zrobić')
+    while True:
+        inp=input()
+        if inp=='tak':wyekwipuj();break
+        if inp=='nie':break
+        else:print('zła komenda')
     while zyjecie() == 'Draw':
+        efekt()
+        if zyjecie() != 'Draw':break
         print(f'obecnie masz {hpg} hp, {obg} obrony i {atg} ataku')
         print('')
         print(f'wróg ma obecnie {hpw} hp, {obw} obrony i {atw} ataku')
@@ -763,25 +895,33 @@ def walka():
                     print('nie udało ci się ucieć ale nie martw się')
                     print('bo brak ataku jest wystarczającą karą')
                     break
-            elif inp == 'leczenie':
-                leczenie()
-                break
+            elif inp == 'leczenie':leczenie();break
             elif inp == 'nic': break
             else: print('zła komenda')
-        if zyjecie() != 'Draw':
-            break
+        if zyjecie() != 'Draw':break
+        efekt()
+        if zyjecie() != 'Draw':break
         print(f'wróg ma obecnie {hpw} hp, {obw} obrony i {atw} ataku')
         print('')
         print(f'obecnie masz {hpg} hp, {obg} obrony i {atg} ataku')
         input()
         atakwr()
+    atg=a;obg=b
     if zyjecie() == 'Win':
         print(f'Gratuluje wygrałeś ze {rodzaj}.')
         input()
-        loot()
+        if loot()=='End1':return('End1')
         rodzaj = 'brak_wroga'
         return(True)
     elif zyjecie() == 'Lose':
         return(False)
 
 #testy============================================
+
+while True:
+    k = next_door()
+    if k=='End1'or k==False:break
+
+
+
+
