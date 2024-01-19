@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 class Ksienga:
-    def __init__(self,us) -> None:
+    def __init__(self,us):
         self.user = us
         self.dane ={
             'tytul' : 'xxx',
@@ -13,14 +13,18 @@ class Ksienga:
         }
         self.twoz()
 
+    def tyt(self):
+        print(self.dane['tytul'])
+
     def inf(self,us,rang):
         if self.user == us: rang = 1
         if rang == 0:
             for k,v in self.dane.items():
                 print(f"{k} : {v}")
-        elif rang == 2:
+        elif rang >= 2:
             for k,v in self.dane.items():
                 print(f"{k} : {v}")
+            print(f'twurca: {self.user}')
 
     def twoz(self):
         print("podaj tytul:")
@@ -54,6 +58,9 @@ class Ksienga_istniejomca:
             'IP' : uuid4
         }
 
+    def tyt(self):
+        print(self.dane['tytul'])
+    
     def inf(self,rang):
         if rang == 0:
             for k,v in self.dane.items():
