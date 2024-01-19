@@ -14,7 +14,14 @@ magazyn = [
     b41,b42,b43,b44,b45,b46,b47,b48,b49,b50]
 pulka = []
 zusers = [u1,u2,u3,u4,u5,u6,u7,u8,u9,u10]
-users = []
+users = [];user_in_use = []
+
+
+def new_book():
+    magazyn [0] = classes.Ksienga(user_in_use[0].name)
+    pulka.append(magazyn [0])
+    magazyn.pop(0)
+
 
 
 
