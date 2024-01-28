@@ -21,7 +21,11 @@ class Ksienga:
         if rang == 0:
             for k,v in self.dane.items():
                 print(f"{k} : {v}")
-        elif rang >= 2:
+        if rang == 1:
+            for k,v in self.dane.items():
+                print(f"{k} : {v}")
+            print('To twoj tytul (mozesz zmieniac jego opis)')
+        elif rang == 2:
             for k,v in self.dane.items():
                 print(f"{k} : {v}")
             print(f'twurca: {self.user}')
@@ -86,8 +90,11 @@ class Usrer():
         self.rang = 0
 
     def zmien_haslo(self):
-        print("podaj nowe haslo:")
-        self.haslo = input()
+        print('podaj stare haslo')
+        if input() == self.haslo:
+            print("podaj nowe haslo:")
+            self.haslo = input()
+        else: print('zle haslo')
 
 class Admin():
     def __init__(self) -> None:
@@ -98,5 +105,9 @@ class Admin():
         self.rang = 2
 
     def zmien_haslo(self):
-        print("podaj nowe haslo:")
-        self.haslo = input()
+        print('podaj stare haslo')
+        if input() == self.haslo:
+            print("podaj nowe haslo:")
+            self.haslo = input()
+        else: print('zle haslo')
+
