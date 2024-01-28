@@ -111,3 +111,6 @@ class Admin():
             self.haslo = input()
         else: print('zle haslo')
 
+
+
+#xxx
