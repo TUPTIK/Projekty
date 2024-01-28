@@ -16,14 +16,75 @@ pulka = []
 zusers = [u1,u2,u3,u4,u5,u6,u7,u8,u9,u10]
 users = [];user_in_use = []
 
-
 def new_book():
     magazyn [0] = classes.Ksienga(user_in_use[0].name)
     pulka.append(magazyn [0])
     magazyn.pop(0)
 
+def tytles():
+    for el in pulka:
+        pulka [el].tyt
 
+def info_sz():
+    print('Podaj tytul ktury chcesz sprawdzic.')
+    ty = input()
+    for el in pulka:
+        if pulka [el].dane['tytul'] == ty:
+            pulka [el].inf(user_in_use[0].name,user_in_use.rang)
+            return None
+        
+def register():
+    zusers [0]= classes.Usrer
+    users.append(zusers[0])
 
+def login():
+    print('podaj nazwe uzytkownika')
+    nazwa = input()
+    for el in users:
+        if users[el].name == nazwa:
+            print('podaj haslo')
+            if users[el].haslo == input():
+                for i in user_in_use:user_in_use.pop[0]
+                user_in_use.append(users[el])
+                return None
+            else: print('zle haslo');return None
+    print('nie ma takiego uzytkownika  :(')
 
+def zmien():
+    print('podaj tytul ksiomzki kturej opis chcesz zmienic')
+    ty = input()
+    for el in pulka:
+        if pulka [el].dane['tytul'] == ty:
+            pulka[el].change(user_in_use[0].name,user_in_use[0])
+
+def user0():
+        print('musisz sie zalogować')
+        print('jesli nie masz konta utwuz je')
+        print('A --> utwuz konto')
+        print('B --> zaloguj sie')
+        inp = input()
+        if inp == 'A':
+            register()
+        elif inp == 'B':
+            login()
+        else: print('nieznana komenda')
+
+while True:
+    if len(user_in_use) == 0: user0()
+    else:
+        print('co chcesz zrobic?')
+        print('A --> stwuz nowa ksiamzke')
+        print('B --> zobacz wszystkie tytuly')
+        print('C --> sprawdz dane konkretnej ksiamzki')
+        print('D --> stworz nowe konto')
+        print('E --> zaloguj sie na inne konto')
+        print('F --> zmien opis jakiejs ksiomzki')
+        inp = input()
+        if inp == 'A': new_book()
+        elif inp == 'B':tytles()
+        elif inp == 'C':info_sz()
+        elif inp == 'D':register()
+        elif inp == 'E':login()
+        elif inp == 'F':zmien()
 
 
