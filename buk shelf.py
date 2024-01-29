@@ -34,7 +34,7 @@ def info_sz():
             return None
         
 def register():
-    zusers [0]= classes.Usrer
+    zusers [0]= classes.Usrer()
     users.append(zusers[0])
 
 def login():
