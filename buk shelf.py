@@ -1,11 +1,15 @@
 import classes 
 
+magazyn = [
+    ['Ja i ty','Ja','fantasy','zycie w szkole',65],
+    ['Polacy','Pawel','historia','Jak zyja polacy na wsi?',253],
+    ['Tytus sam na Zadupiu','Romek','fantasy','Tytus zgubil sie na Zadupiu bez Romka i Atomka w obrembie 100 km',103],
+    ['Janek Pawlak','Jan','SF','zycie Janka Pawlaka',230]
+]
 pulka = [];users = [];user_in_use = []
 
 def wst():
-    print('')
-    print('==========/\==========')
-    print('')
+    print('|==========|-|==========|')
 
 def new_book():
     pulka.append(classes.Ksienga(user_in_use[0].name))
@@ -13,7 +17,7 @@ def new_book():
 
 def tytles():
     for el in range(len(pulka)):
-        pulka [el].tyt
+        pulka [el].tyt()
     wst()
 
 def info_sz():
@@ -43,7 +47,7 @@ def login():
             else: print('zle haslo');wst();return None
     print('nie ma takiego uzytkownika  :(');wst()
 
-def zmien():
+def zmien(): 
     print('podaj tytul ksiomzki kturej dane chcesz zmienić')
     ty = input()
     for el in range(len(pulka)):
@@ -67,7 +71,13 @@ def user0():
 def wyloguj():
     user_in_use.pop(0)
 
+def wczytaj(lst):
+    pulka.append(classes.Ksienga_istniejomca(list))
 
+for el in magazyn:
+    pulka.append(classes.Ksienga_istniejomca(el))
+
+users.append(classes.Admin())
 
 while True:
     if len(user_in_use) == 0: user0()
